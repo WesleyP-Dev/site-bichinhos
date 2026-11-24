@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contador de Bichinhos 🐾</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --accent-dog: #f59e0b;
+      --accent-dog-bg: #fef3c7;
+      --accent-cat: #8b5cf6;
+      --accent-cat-bg: #ede9fe;
+      --accent-bunny: #ec4899;
+      --accent-bunny-bg: #fce7f3;
+      --total-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --border: #e2e8f0;
+      --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+      --shadow-sm: 0 4px 6px -1px rgba(15, 23, 42, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(circle at top left, #e0e7ff, transparent 45%),
+                  radial-gradient(circle at bottom right, #fce7f3, transparent 45%),
+                  #f8fafc;
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #eef2ff;
+      color: #4f46e5;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    p.subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .pet-btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.4rem 0.75rem;
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: var(--shadow-sm);
+      user-select: none;
+      font-family: inherit;
+    }
+
+    .pet-btn:hover {
+      transform: translateY(-4px);
+    }
+
+    .pet-btn:active {
+      transform: translateY(0) scale(0.96);
+    }
+
+    .pet-btn.dog:hover, .pet-btn.dog:focus-visible {
+      border-color: var(--accent-dog);
+      background: #fffbeb;
+      box-shadow: 0 10px 20px -5px rgba(245, 158, 11, 0.2);
+    }
+
+    .pet-btn.cat:hover, .pet-btn.cat:focus-visible {
+      border-color: var(--accent-cat);
+      background: #f5f3ff;
+      box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.2);
+    }
+
+    .pet-btn.bunny:hover, .pet-btn.bunny:focus-visible {
+      border-color: var(--accent-bunny);
+      background: #fdf2f8;
+      box-shadow: 0 10px 20px -5px rgba(236, 72, 153, 0.2);
+    }
+
+    .emoji {
+      font-size: 2.6rem;
+      line-height: 1;
+      margin-bottom: 0.65rem;
+      transition: transform 0.2s ease;
+    }
+
+    .pet-btn:hover .emoji {
+      transform: scale(1.15) rotate(-4deg);
+    }
+
+    .pet-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+
+    .pet-value {
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .dog .pet-value {
+      background: var(--accent-dog-bg);
+      color: #b45309;
+    }
+
+    .cat .pet-value {
+      background: var(--accent-cat-bg);
+      color: #6d28d9;
+    }
+
+    .bunny .pet-value {
+      background: var(--accent-bunny-bg);
+      color: #be185d;
+    }
+
+    .pet-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--text-primary);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      min-width: 24px;
+      height: 24px;
+      padding: 0 6px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .pet-count.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .total-box {
+      background: var(--total-gradient);
+      color: #ffffff;
+      border-radius: 22px;
+      padding: 1.75rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 12px 24px -6px rgba(99, 102, 241, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .total-box::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 180px;
+      height: 180px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .total-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.9;
+      margin-bottom: 0.35rem;
+    }
+
+    .total-value {
+      font-size: clamp(2.5rem, 6vw, 3.25rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .total-value.bump {
+      transform: scale(1.14);
+    }
+
+    .total-breakdown {
+      margin-top: 0.6rem;
+      font-size: 0.82rem;
+      opacity: 0.85;
+      min-height: 1.2em;
+    }
+
+    .reset-btn {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.95rem 1.5rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--danger);
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .reset-btn:hover:not(:disabled) {
+      background: var(--danger);
+      color: #ffffff;
+      border-color: var(--danger);
+      box-shadow: 0 8px 16px -4px rgba(239, 68, 68, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .reset-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .reset-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.75rem 1.25rem;
+      }
+      .buttons-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      .pet-btn {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1rem 1.25rem;
+      }
+      .pet-left {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+      }
+      .emoji {
+        font-size: 2rem;
+        margin-bottom: 0;
+      }
+      .pet-name {
+        margin-bottom: 0;
+        font-size: 1.05rem;
+      }
+    }
+
+    @media (min-width: 481px) {
+      .pet-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="badge">🐾 Somador Interativo</div>
+    <h1>Escolha os Bichinhos</h1>
+    <p class="subtitle">Clique nos botões abaixo para acumular pontos</p>
+
+    <section class="buttons-grid" aria-label="Opções de bichinhos">
+      <button type="button" class="pet-btn dog" data-pet="dog" data-value="10">
+        <span class="pet-count" id="count-dog">0</span>
+        <div class="pet-left">
+          <span class="emoji" aria-hidden="true">🐶</span>
+          <span class="pet-name">Cachorrinho</span>
+        </div>
+        <span class="pet-value">+10</span>
+      </button>
+
+      <button type="button" class="pet-btn cat" data-pet="cat" data-value="15">
+        <span class="pet-count" id="count-cat">0</span>
+        <div class="pet-left">
+          <span class="emoji" aria-hidden="true">🐱</span>
+          <span class="pet-name">Gato</span>
+        </div>
+        <span class="pet-value">+15</span>
+      </button>
+
+      <button type="button" class="pet-btn bunny" data-pet="bunny" data-value="20">
+        <span class="pet-count" id="count-bunny">0</span>
+        <div class="pet-left">
+          <span class="emoji" aria-hidden="true">🐰</span>
+          <span class="pet-name">Coelho</span>
+        </div>
+        <span class="pet-value">+20</span>
+      </button>
+    </section>
+
+    <section class="total-box" aria-live="polite">
+      <div class="total-label">Total Acumulado</div>
+      <div class="total-value" id="total-display">0</div>
+      <div class="total-breakdown" id="breakdown-display">Nenhum bichinho selecionado ainda</div>
+    </section>
+
+    <button type="button" class="reset-btn" id="reset-btn" disabled>
+      <span>🔄</span> Zerar Contador
+    </button>
+  </main>
+
+  <script>
+    (function () {
+      let total = 0;
+      const counts = { dog: 0, cat: 0, bunny: 0 };
+
+      const totalDisplay = document.getElementById('total-display');
+      const breakdownDisplay = document.getElementById('breakdown-display');
+      const resetBtn = document.getElementById('reset-btn');
+      const petButtons = document.querySelectorAll('.pet-btn');
+
+      function updateUI() {
+        totalDisplay.textContent = total;
+        totalDisplay.classList.remove('bump');
+        void totalDisplay.offsetWidth; // Reflow para reiniciar animação
+        totalDisplay.classList.add('bump');
+
+        Object.keys(counts).forEach((key) => {
+          const badge = document.getElementById(`count-${key}`);
+          badge.textContent = `${counts[key]}x`;
+          badge.classList.toggle('visible', counts[key] > 0);
+        });
+
+        const parts = [];
+        if (counts.dog > 0) parts.push(`🐶 ${counts.dog}`);
+        if (counts.cat > 0) parts.push(`🐱 ${counts.cat}`);
+        if (counts.bunny > 0) parts.push(`🐰 ${counts.bunny}`);
+
+        breakdownDisplay.textContent = parts.length > 0
+          ? `Selecionados: ${parts.join(' • ')}`
+          : 'Nenhum bichinho selecionado ainda';
+
+        resetBtn.disabled = total === 0;
+      }
+
+      petButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const value = Number(btn.dataset.value);
+          const pet = btn.dataset.pet;
+          total += value;
+          counts[pet] += 1;
+          updateUI();
+        });
+      });
+
+      resetBtn.addEventListener('click', () => {
+        total = 0;
+        counts.dog = 0;
+        counts.cat = 0;
+        counts.bunny = 0;
+        updateUI();
+      });
+    })();
+  </script>
+</body>
+</html>
